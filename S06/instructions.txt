@@ -1,0 +1,31 @@
+Objective:
+Walk through step by step on how CloudWatch Log works for monitoring log files.
+For production use, you should CloudWatch Log Agent that automatically monitors the log files
+for new entries and publishes them to CloudWatch Log Service.
+
+This also shows how you can publish events from your own personal computer (or servers outside of AWS) to CloudWatch Log.
+
+Steps:
+a. Create Log Group 'CountLogEvents'
+b. Create Log Stream 'Stream1'
+c. Publish messages from file 'Demo-CWLog-Data-1.txt' (ensure time stamps in the file is updated to current time)
+d. Add metric filter to count events
+e. Publish messages from file 'Demo-CWLog-Data-2.txt' (ensure time stamps in the file is updated to current time)
+f. Add metric filter to capture errors
+g. Publish messages with errors from file 'Demo-CWLog-Data-3.txt' (ensure time stamps in the file is updated to current time)
+
+Command to create Log Stream:
+aws logs create-log-stream --log-group-name CountLogEvents --log-stream-name Stream1 --profile myadmin
+
+Command to publish events:
+aws logs put-log-events --profile myadmin --log-group-name CountLogEvents --log-stream-name Stream1 --log-events file://CWLog-Data-3.txt --sequence-token 49559370658318598132673133504720164004297095686664494802
+
+
+Reference:
+1. To convert time stamp to epoch http://www.epochconverter.com/
+Make sure to use epoch time upto milliseconds.  it cannot be more than 2 hours in the future or older than 14 days or retention period   
+2. AWS Examples:
+http://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CountingLogEventsExample.html
+3. CLI Logs help:
+http://docs.aws.amazon.com/cli/latest/reference/logs/put-log-events.html
+http://docs.aws.amazon.com/cli/latest/reference/logs/create-log-stream.html

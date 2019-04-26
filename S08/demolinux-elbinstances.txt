@@ -1,0 +1,54 @@
+Objective: Create an internet facing classic load balancer.  Web servers
+are in private subnet.  Load balancer is in public subnet.
+
+Note: NAT Gateway is used for this demo. It accumulates a small hourly charge and is not part of 
+free tier.
+
+a. Verify Classic Load Balancer functionality
+b. Demonstrate how only ELB Classic needs have public IP and webservers securely
+located in private subnet.
+c. Use bastion host for web server maintenance
+d. simulate error by removing the health check page
+e. see how long it takes for ELB to flag an unhealthy instance
+f. bring the health check page online
+g. see how long it takes for ELB to confirm that the instance is healthy
+h. Cleanup - steps below - you can optionally perform cleanup after application load balancer demo is completed as resources are reused.
+
+Note: Wait for ELB to complete health checks of individual instances. If none of the instances are InService, you may get error. run ipconfig /flushdns (windows) to clear DNS cache on your client.
+
+Preparation: 
+Create/Allocate an Elastic IP (needed for NAT)
+Create a VPC ELBDemoVPC with public and private subnet
+Network: 10.0.0.0/16
+Public  Subnet A: 10.0.0.0/24 (attach route table for local + internet gateway)
+Private Subnet A: 10.0.100.0/24 (attach route table for local + NAT gateway)
+Public  Subnet B: 10.0.1.0/24 (attach route table for local + internet gateway)
+Private Subnet B: 10.0.101.0/24 (attach route table for local + NAT gateway)
+
+Launch EC2 Web Server 1 in Private Subnet A with the user data script:
+Copy the below instructions to user data (no need for sudo as user data scripts are executed under root privileges):
+
+#!/bin/bash
+yum update -y
+yum install -y httpd24
+service httpd start
+chkconfig httpd on
+echo 'hi there from server number: 1' > /var/www/html/test.txt
+
+Launch EC2 Web Server 2 in Private Subnet B with the user data script:
+Copy the below instructions to user data (no need for sudo as user data scripts are executed under root privileges):
+#!/bin/bash
+yum update -y
+yum install -y httpd24
+service httpd start
+chkconfig httpd on
+echo 'hi there from server number: 2' > /var/www/html/test.txt
+
+Launch a BastionHost in Public Subnet A (either one of the public subnets is okay)
+
+
+Cleanup:
+1. Delete Load Balancer
+2. Terminate EC2 instances (optional: can reuse for Application Load Balancer demo)
+3. Delete VPC (optional: can reuse for Application Load Balancer demo)
+4. Release Elastic IP

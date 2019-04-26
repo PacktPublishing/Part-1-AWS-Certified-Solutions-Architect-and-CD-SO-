@@ -1,0 +1,9 @@
+Sysbench:
+https://github.com/akopytov/sysbench
+
+Setup:
+	curl -s https://packagecloud.io/install/repositories/akopytov/sysbench/script.rpm.sh | sudo bash
+	sudo yum -y install sysbench
+
+Command to run CPU benchmark for 300 seconds:
+	sysbench cpu --time=300 run

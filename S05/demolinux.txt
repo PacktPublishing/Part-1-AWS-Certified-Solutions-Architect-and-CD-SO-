@@ -1,0 +1,13 @@
+Demo - Linux Instance
+
+ec2-user@<IP Address or DNS Name>
+
+
+Steps:
+1. sudo yum update -y
+2. sudo yum install -y httpd24
+3. sudo service httpd start
+4. sudo chkconfig httpd on
+5. chkconfig --list httpd
+6. sudo nano /var/www/html/test.txt
+7. curl http://169.254.169.254/latest/meta-data/

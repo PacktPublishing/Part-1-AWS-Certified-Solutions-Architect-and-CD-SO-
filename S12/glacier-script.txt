@@ -1,0 +1,26 @@
+CLI Ref:
+https://docs.aws.amazon.com/cli/latest/reference/glacier/upload-archive.html
+
+Steps:
+1. Upload Archive to Vault
+
+	aws glacier upload-archive --account-id - --vault-name exampleVault --body 2018_S3_Release_WM.pdf --profile myadmin
+
+2. Retrieving an Archive is a two-step process
+a. Initiate a job to retrieve entire archive or a portion of archive
+b. After job completes, download the requested archive or specified portion.  Job output is available for atleast 24 hours.  You can configure SNS to notify on job completion or manually check the job status.  Standard retrieval typically takes between 3-5 hours.
+
+	aws glacier initiate-job --account-id - --vault-name exampleVault --job-parameters file://archive-retrieval.json --profile myadmin
+
+	Job Parameter File:
+	{
+	  "Type": "archive-retrieval",  
+	  "ArchiveId": "",
+	  "Description": "Retrieve archive"
+	}
+	
+	# Check Job Status
+	aws glacier list-jobs --account-id - --vault-name exampleVault --profile myadmin
+
+3. Retrieve Output
+	aws glacier get-job-output --account-id - --vault-name exampleVault --job-id "" output.pdf --profile myadmin

@@ -1,0 +1,23 @@
+{
+	"Id": "ReadAccessPolicy",
+	"Version": "2012-10-17",
+	"Statement": [
+		{
+			"Sid": "ReadSpecificBucket",
+			"Action": [
+				"s3:GetObject",
+				"s3:ListBucket"
+			],
+			"Effect": "Allow",
+			"Resource": [
+				"arn:aws:s3:::chandra-s3-iam",
+				"arn:aws:s3:::chandra-s3-iam/*"
+			],
+			"Principal": {
+				"AWS": [
+					"arn:aws:iam::123456789:user/dave"
+				]
+			}
+		}
+	]
+}

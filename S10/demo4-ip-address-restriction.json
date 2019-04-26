@@ -1,0 +1,29 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "Stmt1488120457000",
+            "Effect": "Allow",
+            "Action": [
+                "s3:ListBucket",
+                "s3:GetBucketLocation"
+            ],
+            "Resource": [
+                "arn:aws:s3:::chandra-s3-iam"
+            ]
+        },
+        {
+			"Sid": "Stmt1487799179338",
+			"Effect": "Allow",
+			"Action": [
+				"s3:GetObject"
+			],
+			"Resource": "arn:aws:s3:::chandra-s3-iam/${aws:username}/*",
+            "Condition" : {
+                "IpAddress" : {
+                    "aws:SourceIp": "1.2.3.4/32" 
+                }              
+            }
+		}
+    ]
+}

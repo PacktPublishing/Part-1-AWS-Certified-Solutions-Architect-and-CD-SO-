@@ -1,0 +1,6 @@
+Commands:
+1. To list s3 buckets belonging to your account
+   aws s3 ls
+
+2. To get IAM role credentials using meta data service
+curl http://169.254.169.254/latest/meta-data/iam/security-credentials/ec2_s3_read_access

@@ -1,0 +1,16 @@
+Demo - Linux Instance with User Data - update and install webserver during launch
+
+Tag: UserDataDemo
+
+Steps (no need for sudo as user data scripts are executed under root privileges):
+#!/bin/bash
+yum update -y
+yum install -y httpd24
+service httpd start
+chkconfig httpd on
+echo 'hi there from user data' > /var/www/html/test.txt
+
+
+Query Instance Metadata
+curl http://169.254.169.254/latest/meta-data/local-hostname 
+curl http://169.254.169.254/latest/user-data

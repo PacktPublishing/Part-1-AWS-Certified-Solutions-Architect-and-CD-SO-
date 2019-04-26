@@ -1,0 +1,11 @@
+http://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_ConnectToInstance.html
+
+Install MySQL Client:
+sudo yum install mysql
+
+To Connect (make sure MySQL DB security group allows access from the instance):
+mysql -h db.demolearn.com -P 3306 -u dbadmin -p
+
+Query:
+#insert into demodb.hello(name, age) values ('Hello',50);
+SELECT * FROM demodb.hello;
